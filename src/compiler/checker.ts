@@ -137,6 +137,7 @@ namespace ts {
             getParameterType: getTypeAtPosition,
             getPromisedTypeOfPromise,
             getReturnTypeOfSignature,
+            getOperatorOverload,
             getNullableType,
             getNonNullableType,
             typeToTypeNode: nodeBuilder.typeToTypeNode,
@@ -22533,6 +22534,90 @@ namespace ts {
             return checkBinaryLikeExpression(node.left, node.operatorToken, node.right, checkMode, node);
         }
 
+        function getOverloadMethodName(operatorToken: Node): string | undefined {
+            switch (operatorToken.kind) {
+                case SyntaxKind.AsteriskToken: return 'multiply';
+                case SyntaxKind.AsteriskAsteriskToken: return 'exp';
+                case SyntaxKind.AsteriskEqualsToken: return 'multiply';
+                case SyntaxKind.AsteriskAsteriskEqualsToken: return 'exp';
+                case SyntaxKind.SlashToken: return 'divide';
+                case SyntaxKind.SlashEqualsToken: return 'divide';
+                case SyntaxKind.PercentToken: return 'mod';
+                case SyntaxKind.PercentEqualsToken: return 'mod';
+                case SyntaxKind.MinusToken: return 'sub';
+                case SyntaxKind.MinusEqualsToken: return 'sub';
+                case SyntaxKind.LessThanLessThanToken: return 'leftShift';
+                case SyntaxKind.LessThanLessThanEqualsToken: return 'leftShift';
+                case SyntaxKind.GreaterThanGreaterThanToken: return 'rightShift';
+                case SyntaxKind.GreaterThanGreaterThanEqualsToken: return 'rightShift';
+                case SyntaxKind.GreaterThanGreaterThanGreaterThanToken: return 'unsignedRightShift';
+                case SyntaxKind.GreaterThanGreaterThanGreaterThanEqualsToken: return 'unsignedRightShift';
+                case SyntaxKind.BarToken: return 'bitOr';
+                case SyntaxKind.BarEqualsToken: return 'bitOr';
+                case SyntaxKind.CaretToken: return 'bitXor';
+                case SyntaxKind.CaretEqualsToken: return 'bitXor';
+                case SyntaxKind.AmpersandToken: return 'bitAnd';
+                case SyntaxKind.AmpersandEqualsToken: return 'bitAnd';
+                case SyntaxKind.PlusToken: return 'add';
+                case SyntaxKind.PlusEqualsToken: return 'add';
+                case SyntaxKind.LessThanToken: return 'lessThan';
+                case SyntaxKind.GreaterThanToken: return 'greaterThan';
+                case SyntaxKind.LessThanEqualsToken: return 'lessThan';
+                case SyntaxKind.GreaterThanEqualsToken: return 'greaterThan';
+                case SyntaxKind.EqualsEqualsToken: return 'equals';
+                case SyntaxKind.ExclamationEqualsToken: return 'notEquals';
+                case SyntaxKind.EqualsEqualsEqualsToken: return 'strictEquals';
+                case SyntaxKind.ExclamationEqualsEqualsToken: return 'strictNotEquals';
+                case SyntaxKind.InstanceOfKeyword: return undefined;
+                case SyntaxKind.InKeyword: return undefined;
+                case SyntaxKind.AmpersandAmpersandToken: return 'and';
+                case SyntaxKind.BarBarToken: return 'or';
+                case SyntaxKind.EqualsToken: return 'assign';
+                case SyntaxKind.CommaToken: return undefined;
+                default:
+                    return Debug.fail();
+            }
+        }
+
+        function getOperatorOverload(leftType: Type, operatorToken: Node, rightType: Type): { namespace: Symbol, member: Symbol, type: Type } | undefined {
+            const name = getOverloadMethodName(operatorToken) as __String;
+
+            if (!name) {
+                return;
+            }
+
+            const namespaces = getSymbolsInScope(operatorToken, SymbolFlags.ValueModule | SymbolFlags.Alias);
+            for (const namespace of namespaces) {
+                if (!/Ops(_.+)?/.test(namespace.escapedName as string)) {
+                    continue;
+                }
+
+                const resolved = resolveSymbol(namespace);
+
+                if (!(resolved.flags & SymbolFlags.ValueModule)) {
+                    continue;
+                }
+
+                const member = resolved.exports && resolved.exports.get(name);
+                if (!member) {
+                    continue
+                }
+
+                for (const declaration of member.declarations) {
+                    if (!isFunctionDeclaration(declaration)) {
+                        continue;
+                    }
+
+                    const signature = getSignatureFromDeclaration(declaration);
+                    if (signature.parameters.length === 2
+                        && isTypeAssignableTo(leftType, getTypeAtPosition(signature, 0))
+                        && isTypeAssignableTo(rightType, getTypeAtPosition(signature, 1))) {
+                        return {type: getReturnTypeOfSignature(signature), namespace, member};
+                    }
+                }
+            }
+        }
+
         function checkBinaryLikeExpression(left: Expression, operatorToken: Node, right: Expression, checkMode?: CheckMode, errorNode?: Node): Type {
             const operator = operatorToken.kind;
             if (operator === SyntaxKind.EqualsToken && (left.kind === SyntaxKind.ObjectLiteralExpression || left.kind === SyntaxKind.ArrayLiteralExpression)) {
@@ -22547,6 +22632,12 @@ namespace ts {
             }
 
             let rightType = checkExpression(right, checkMode);
+
+            const override = getOperatorOverload(leftType, operatorToken, rightType);
+            if (override) {
+                return override.type;
+            }
+
             switch (operator) {
                 case SyntaxKind.AsteriskToken:
                 case SyntaxKind.AsteriskAsteriskToken:

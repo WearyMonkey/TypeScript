@@ -1,5 +1,39 @@
 /* @internal */
 namespace ts {
+
+    function operatorOverloadingTransformer(program: Program) {
+        const checker = program.getTypeChecker();
+        return function(context: TransformationContext) {
+            return chainBundle(transformSourceFile);
+
+            function transformSourceFile(node: SourceFile): SourceFile {
+                if (node.isDeclarationFile) {
+                    return node;
+                }
+
+                return visitEachChild(node, visit, context);
+            }
+
+            function visit(node: Node): Node {
+                node = visitEachChild(node, visit, context);
+
+                if (isBinaryExpression(node)) {
+                    const overload = checker.getOperatorOverload(
+                        checker.getTypeAtLocation(node.left),
+                        node.operatorToken,
+                        checker.getTypeAtLocation(node.right));
+                    if (overload) {
+                        const { namespace, member } = overload;
+                        const propertyAccess = ts.createPropertyAccess(ts.createIdentifier(namespace.escapedName as string), member.escapedName as string);
+                        return ts.createCall(propertyAccess, undefined, [node.left, node.right])
+                    }
+                }
+
+                return node;
+            }
+        }
+    }
+
     function getModuleTransformer(moduleKind: ModuleKind): TransformerFactory<SourceFile | Bundle> {
         switch (moduleKind) {
             case ModuleKind.ESNext:
@@ -24,7 +58,7 @@ namespace ts {
         EmitNotifications = 1 << 1,
     }
 
-    export function getTransformers(compilerOptions: CompilerOptions, customTransformers?: CustomTransformers) {
+    export function getTransformers(program: Program, compilerOptions: CompilerOptions, customTransformers?: CustomTransformers) {
         const jsx = compilerOptions.jsx;
         const languageVersion = getEmitScriptTarget(compilerOptions);
         const moduleKind = getEmitModuleKind(compilerOptions);
@@ -33,6 +67,7 @@ namespace ts {
         addRange(transformers, customTransformers && customTransformers.before);
 
         transformers.push(transformTypeScript);
+        transformers.push(operatorOverloadingTransformer(program));
 
         if (jsx === JsxEmit.React) {
             transformers.push(transformJsx);
