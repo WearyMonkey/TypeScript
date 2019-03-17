@@ -22536,43 +22536,43 @@ namespace ts {
 
         function getOverloadMethodName(operatorToken: Node): string | undefined {
             switch (operatorToken.kind) {
-                case SyntaxKind.AsteriskToken: return 'multiply';
-                case SyntaxKind.AsteriskAsteriskToken: return 'exp';
-                case SyntaxKind.AsteriskEqualsToken: return 'multiply';
-                case SyntaxKind.AsteriskAsteriskEqualsToken: return 'exp';
-                case SyntaxKind.SlashToken: return 'divide';
-                case SyntaxKind.SlashEqualsToken: return 'divide';
-                case SyntaxKind.PercentToken: return 'mod';
-                case SyntaxKind.PercentEqualsToken: return 'mod';
-                case SyntaxKind.MinusToken: return 'sub';
-                case SyntaxKind.MinusEqualsToken: return 'sub';
-                case SyntaxKind.LessThanLessThanToken: return 'leftShift';
-                case SyntaxKind.LessThanLessThanEqualsToken: return 'leftShift';
-                case SyntaxKind.GreaterThanGreaterThanToken: return 'rightShift';
-                case SyntaxKind.GreaterThanGreaterThanEqualsToken: return 'rightShift';
-                case SyntaxKind.GreaterThanGreaterThanGreaterThanToken: return 'unsignedRightShift';
-                case SyntaxKind.GreaterThanGreaterThanGreaterThanEqualsToken: return 'unsignedRightShift';
-                case SyntaxKind.BarToken: return 'bitOr';
-                case SyntaxKind.BarEqualsToken: return 'bitOr';
-                case SyntaxKind.CaretToken: return 'bitXor';
-                case SyntaxKind.CaretEqualsToken: return 'bitXor';
-                case SyntaxKind.AmpersandToken: return 'bitAnd';
-                case SyntaxKind.AmpersandEqualsToken: return 'bitAnd';
-                case SyntaxKind.PlusToken: return 'add';
-                case SyntaxKind.PlusEqualsToken: return 'add';
-                case SyntaxKind.LessThanToken: return 'lessThan';
-                case SyntaxKind.GreaterThanToken: return 'greaterThan';
-                case SyntaxKind.LessThanEqualsToken: return 'lessThan';
-                case SyntaxKind.GreaterThanEqualsToken: return 'greaterThan';
-                case SyntaxKind.EqualsEqualsToken: return 'equals';
-                case SyntaxKind.ExclamationEqualsToken: return 'notEquals';
-                case SyntaxKind.EqualsEqualsEqualsToken: return 'strictEquals';
-                case SyntaxKind.ExclamationEqualsEqualsToken: return 'strictNotEquals';
+                case SyntaxKind.AsteriskToken: return "multiply";
+                case SyntaxKind.AsteriskAsteriskToken: return "exp";
+                case SyntaxKind.AsteriskEqualsToken: return "multiply";
+                case SyntaxKind.AsteriskAsteriskEqualsToken: return "exp";
+                case SyntaxKind.SlashToken: return "divide";
+                case SyntaxKind.SlashEqualsToken: return "divide";
+                case SyntaxKind.PercentToken: return "mod";
+                case SyntaxKind.PercentEqualsToken: return "mod";
+                case SyntaxKind.MinusToken: return "sub";
+                case SyntaxKind.MinusEqualsToken: return "sub";
+                case SyntaxKind.LessThanLessThanToken: return "leftShift";
+                case SyntaxKind.LessThanLessThanEqualsToken: return "leftShift";
+                case SyntaxKind.GreaterThanGreaterThanToken: return "rightShift";
+                case SyntaxKind.GreaterThanGreaterThanEqualsToken: return "rightShift";
+                case SyntaxKind.GreaterThanGreaterThanGreaterThanToken: return "unsignedRightShift";
+                case SyntaxKind.GreaterThanGreaterThanGreaterThanEqualsToken: return "unsignedRightShift";
+                case SyntaxKind.BarToken: return "bitOr";
+                case SyntaxKind.BarEqualsToken: return "bitOr";
+                case SyntaxKind.CaretToken: return "bitXor";
+                case SyntaxKind.CaretEqualsToken: return "bitXor";
+                case SyntaxKind.AmpersandToken: return "bitAnd";
+                case SyntaxKind.AmpersandEqualsToken: return "bitAnd";
+                case SyntaxKind.PlusToken: return "add";
+                case SyntaxKind.PlusEqualsToken: return "add";
+                case SyntaxKind.LessThanToken: return "lessThan";
+                case SyntaxKind.GreaterThanToken: return "greaterThan";
+                case SyntaxKind.LessThanEqualsToken: return "lessThan";
+                case SyntaxKind.GreaterThanEqualsToken: return "greaterThan";
+                case SyntaxKind.EqualsEqualsToken: return "equals";
+                case SyntaxKind.ExclamationEqualsToken: return "notEquals";
+                case SyntaxKind.EqualsEqualsEqualsToken: return "strictEquals";
+                case SyntaxKind.ExclamationEqualsEqualsToken: return "strictNotEquals";
                 case SyntaxKind.InstanceOfKeyword: return undefined;
                 case SyntaxKind.InKeyword: return undefined;
-                case SyntaxKind.AmpersandAmpersandToken: return 'and';
-                case SyntaxKind.BarBarToken: return 'or';
-                case SyntaxKind.EqualsToken: return 'assign';
+                case SyntaxKind.AmpersandAmpersandToken: return "and";
+                case SyntaxKind.BarBarToken: return "or";
+                case SyntaxKind.EqualsToken: return "assign";
                 case SyntaxKind.CommaToken: return undefined;
                 default:
                     return Debug.fail();
@@ -22600,7 +22600,7 @@ namespace ts {
 
                 const member = resolved.exports && resolved.exports.get(name);
                 if (!member) {
-                    continue
+                    continue;
                 }
 
                 for (const declaration of member.declarations) {
@@ -22612,7 +22612,7 @@ namespace ts {
                     if (signature.parameters.length === 2
                         && isTypeAssignableTo(leftType, getTypeAtPosition(signature, 0))
                         && isTypeAssignableTo(rightType, getTypeAtPosition(signature, 1))) {
-                        return {type: getReturnTypeOfSignature(signature), namespace, member};
+                        return { type: getReturnTypeOfSignature(signature), namespace, member };
                     }
                 }
             }

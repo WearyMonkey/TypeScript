@@ -3,7 +3,7 @@ namespace ts {
 
     function operatorOverloadingTransformer(program: Program) {
         const checker = program.getTypeChecker();
-        return function(context: TransformationContext) {
+        return (context: TransformationContext) => {
             return chainBundle(transformSourceFile);
 
             function transformSourceFile(node: SourceFile): SourceFile {
@@ -24,14 +24,14 @@ namespace ts {
                         checker.getTypeAtLocation(node.right));
                     if (overload) {
                         const { namespace, member } = overload;
-                        const propertyAccess = ts.createPropertyAccess(ts.createIdentifier(namespace.escapedName as string), member.escapedName as string);
-                        return ts.createCall(propertyAccess, undefined, [node.left, node.right])
+                        const propertyAccess = createPropertyAccess(createIdentifier(namespace.escapedName as string), member.escapedName as string);
+                        return createCall(propertyAccess, /* typeArguments */ undefined, [node.left, node.right]);
                     }
                 }
 
                 return node;
             }
-        }
+        };
     }
 
     function getModuleTransformer(moduleKind: ModuleKind): TransformerFactory<SourceFile | Bundle> {
