@@ -1,0 +1,320 @@
+=== tests/cases/compiler/mod.ts ===
+import { Box } from './box';
+>Box : typeof Box
+
+export namespace Ops_Mod {
+>Ops_Mod : typeof Ops_Mod
+
+    export function mod(lhs: Box, rhs: Box): number {
+>mod : (lhs: Box, rhs: Box) => number
+>lhs : Box
+>rhs : Box
+
+        return lhs.value % rhs.value;
+>lhs.value % rhs.value : number
+>lhs.value : number
+>lhs : Box
+>value : number
+>rhs.value : number
+>rhs : Box
+>value : number
+    }
+}
+
+=== tests/cases/compiler/divide.ts ===
+import { Box } from './box';
+>Box : typeof Box
+
+export function divide(lhs: Box, rhs: Box): number {
+>divide : (lhs: Box, rhs: Box) => number
+>lhs : Box
+>rhs : Box
+
+    return lhs.value / rhs.value;
+>lhs.value / rhs.value : number
+>lhs.value : number
+>lhs : Box
+>value : number
+>rhs.value : number
+>rhs : Box
+>value : number
+
+};
+
+=== tests/cases/compiler/multiply.ts ===
+import { Box } from './box';
+>Box : typeof Box
+
+export namespace Ops {
+>Ops : typeof Ops
+
+    export function multiply(lhs: Box, rhs: Box): number {
+>multiply : (lhs: Box, rhs: Box) => number
+>lhs : Box
+>rhs : Box
+
+        return lhs.value * rhs.value;
+>lhs.value * rhs.value : number
+>lhs.value : number
+>lhs : Box
+>value : number
+>rhs.value : number
+>rhs : Box
+>value : number
+    }
+}
+
+=== tests/cases/compiler/minus.ts ===
+import { Box } from './box';
+>Box : typeof Box
+
+export function sub(lhs: Box, rhs: Box): number {
+>sub : (lhs: Box, rhs: Box) => number
+>lhs : Box
+>rhs : Box
+
+    return lhs.value - rhs.value;
+>lhs.value - rhs.value : number
+>lhs.value : number
+>lhs : Box
+>value : number
+>rhs.value : number
+>rhs : Box
+>value : number
+}
+
+=== tests/cases/compiler/box.ts ===
+import * as Ops_Minus from './minus';
+>Ops_Minus : typeof Ops_Minus
+
+import * as Ops_Divide from './divide';
+>Ops_Divide : typeof Ops_Divide
+
+import { Ops as Ops_Multiply } from './multiply';
+>Ops : typeof Ops_Multiply
+>Ops_Multiply : typeof Ops_Multiply
+
+import { Ops_Mod } from './mod';
+>Ops_Mod : typeof Ops_Mod
+
+console.log(Ops_Minus);
+>console.log(Ops_Minus) : void
+>console.log : (message?: any, ...optionalParams: any[]) => void
+>console : Console
+>log : (message?: any, ...optionalParams: any[]) => void
+>Ops_Minus : typeof Ops_Minus
+
+export class Box {
+>Box : Box
+
+    constructor(public value: number) { }
+>value : number
+}
+
+export class BoxT<T> {
+>BoxT : BoxT<T>
+
+    constructor(public value: T) { }
+>value : T
+}
+
+export namespace Ops {
+>Ops : typeof Ops
+
+    export function add(lhs: Box, rhs: Box): Box;
+>add : { (lhs: Box, rhs: Box): Box; (lhs: Box, rhs: number): number; }
+>lhs : Box
+>rhs : Box
+
+    export function add(lhs: Box, rhs: number): number;
+>add : { (lhs: Box, rhs: Box): Box; (lhs: Box, rhs: number): number; }
+>lhs : Box
+>rhs : number
+
+    export function add(lhs: Box, rhs: Box | number) {
+>add : { (lhs: Box, rhs: Box): Box; (lhs: Box, rhs: number): number; }
+>lhs : Box
+>rhs : number | Box
+
+        if (rhs instanceof Box) {
+>rhs instanceof Box : boolean
+>rhs : number | Box
+>Box : typeof Box
+
+            return new Box(lhs.value + rhs.value);
+>new Box(lhs.value + rhs.value) : Box
+>Box : typeof Box
+>lhs.value + rhs.value : number
+>lhs.value : number
+>lhs : Box
+>value : number
+>rhs.value : number
+>rhs : Box
+>value : number
+
+        } else {
+            return this.value + rhs;
+>this.value + rhs : number
+>this.value : any
+>this : any
+>value : any
+>rhs : number
+        }
+    }
+
+    export function and<T>(lhs: BoxT<T>, rhs: T) {
+>and : <T>(lhs: BoxT<T>, rhs: T) => any
+>lhs : BoxT<T>
+>rhs : T
+
+        return lhs.value && rhs;
+>lhs.value && rhs : T
+>lhs.value : T
+>lhs : BoxT<T>
+>value : T
+>rhs : T
+    }
+
+    export function assignAdd(lhs: Box, rhs: number) {
+>assignAdd : (lhs: Box, rhs: number) => void
+>lhs : Box
+>rhs : number
+
+        lhs.value += rhs;
+>lhs.value += rhs : number
+>lhs.value : number
+>lhs : Box
+>value : number
+>rhs : number
+    }
+
+    export function assign(lhs: Box, rhs: number) {
+>assign : (lhs: Box, rhs: number) => void
+>lhs : Box
+>rhs : number
+
+        lhs.value = rhs;
+>lhs.value = rhs : number
+>lhs.value : number
+>lhs : Box
+>value : number
+>rhs : number
+    }
+
+    export function strictEquals(lhs: Box, rhs: number) {
+>strictEquals : (lhs: Box, rhs: number) => boolean
+>lhs : Box
+>rhs : number
+
+        return lhs.value === rhs;
+>lhs.value === rhs : boolean
+>lhs.value : number
+>lhs : Box
+>value : number
+>rhs : number
+    }
+
+    export function equals(lhs: Box, rhs: number) {
+>equals : (lhs: Box, rhs: number) => boolean
+>lhs : Box
+>rhs : number
+
+        return lhs.value == rhs;
+>lhs.value == rhs : boolean
+>lhs.value : number
+>lhs : Box
+>value : number
+>rhs : number
+    }
+}
+
+let b1 = new Box(1);
+>b1 : Box
+>new Box(1) : Box
+>Box : typeof Box
+>1 : 1
+
+let b2 = new Box(2);
+>b2 : Box
+>new Box(2) : Box
+>Box : typeof Box
+>2 : 2
+
+b1 += 3;
+>b1 += 3 : void
+>b1 : Box
+>3 : 3
+
+b2 = 3;
+>b2 = 3 : void
+>b2 : Box
+>3 : 3
+
+const t = new BoxT(1) && 1;
+>t : any
+>new BoxT(1) && 1 : any
+>new BoxT(1) : BoxT<number>
+>BoxT : typeof BoxT
+>1 : 1
+>1 : 1
+
+const e1 = b1 == 3;
+>e1 : boolean
+>b1 == 3 : boolean
+>b1 : Box
+>3 : 3
+
+const e2 = b1 === 3;
+>e2 : boolean
+>b1 === 3 : boolean
+>b1 : Box
+>3 : 3
+
+const minus = b1 - b2;
+>minus : number
+>b1 - b2 : number
+>b1 : Box
+>b2 : Box
+
+const divide = b1 / b2;
+>divide : number
+>b1 / b2 : number
+>b1 : Box
+>b2 : Box
+
+const multiply = b1 * b2;
+>multiply : number
+>b1 * b2 : number
+>b1 : Box
+>b2 : Box
+
+const mod = b1 % b2;
+>mod : number
+>b1 % b2 : number
+>b1 : Box
+>b2 : Box
+
+const b3 = b1 + b2;
+>b3 : Box
+>b1 + b2 : Box
+>b1 : Box
+>b2 : Box
+
+const b4 = b1 + 1;
+>b4 : number
+>b1 + 1 : number
+>b1 : Box
+>1 : 1
+
+const b5 = b1 + 'foo';
+>b5 : string
+>b1 + 'foo' : string
+>b1 : Box
+>'foo' : "foo"
+
+const b6 = b1 + {};
+>b6 : any
+>b1 + {} : any
+>b1 : Box
+>{} : {}
+

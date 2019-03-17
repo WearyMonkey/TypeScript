@@ -22576,7 +22576,7 @@ namespace ts {
             }
         }
 
-        function getOperatorOverload(leftType: Type, operatorToken: Node, rightType: Type): { namespace: Symbol, member: Symbol, type: Type } | undefined {
+        function getOperatorOverload(left: Expression, operatorToken: Node, right: Expression): { call: Node, type: Type } | undefined {
             const name = getOverloadMethodName(operatorToken) as __String;
 
             if (!name) {
@@ -22584,7 +22584,12 @@ namespace ts {
             }
 
             const namespaces = getSymbolsInScope(operatorToken, SymbolFlags.ValueModule | SymbolFlags.Alias);
-            for (const namespace of namespaces) {
+            for (let namespace of namespaces) {
+
+                if (namespace.exportSymbol) {
+                    namespace = namespace.exportSymbol;
+                }
+
                 if (!/Ops(_.+)?/.test(namespace.escapedName as string)) {
                     continue;
                 }
@@ -22600,17 +22605,16 @@ namespace ts {
                     continue;
                 }
 
-                for (const declaration of member.declarations) {
-                    if (!isFunctionDeclaration(declaration)) {
-                        continue;
-                    }
+                const id = createIdentifier(namespace.escapedName as string);
+                const propertyAccess = createPropertyAccess(id, member.escapedName as string);
+                id.parent = propertyAccess;
+                const call = createCall(propertyAccess, /* typeArguments */ undefined, [left, right]);
+                propertyAccess.parent = call;
+                call.parent = operatorToken.parent;
 
-                    const signature = getSignatureFromDeclaration(declaration);
-                    if (signature.parameters.length === 2
-                        && isTypeAssignableTo(leftType, getTypeAtPosition(signature, 0))
-                        && isTypeAssignableTo(rightType, getTypeAtPosition(signature, 1))) {
-                        return { type: getReturnTypeOfSignature(signature), namespace, member };
-                    }
+                const signature = resolveCallExpression(call, [], /* isForSignatureHelp */ false);
+                if (signature !== unknownSignature) {
+                    return { call, type: getReturnTypeOfSignature(signature) };
                 }
             }
         }
@@ -22630,7 +22634,7 @@ namespace ts {
 
             let rightType = checkExpression(right, checkMode);
 
-            const override = getOperatorOverload(leftType, operatorToken, rightType);
+            const override = getOperatorOverload(left, operatorToken, right);
             if (override) {
                 return override.type;
             }

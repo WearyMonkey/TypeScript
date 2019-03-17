@@ -3026,7 +3026,7 @@ namespace ts {
         /* @internal */
         getPromisedTypeOfPromise(promise: Type, errorNode?: Node): Type | undefined;
         getReturnTypeOfSignature(signature: Signature): Type;
-        getOperatorOverload(leftType: Type, operatorToken: Node, rightType: Type): { namespace: Symbol, member: Symbol, type: Type } | undefined;
+        getOperatorOverload(left: Expression, operatorToken: Node, right: Expression): { call: Node, type: Type } | undefined;
         /**
          * Gets the type of a parameter at a given position in a signature.
          * Returns `any` if the index is not valid.

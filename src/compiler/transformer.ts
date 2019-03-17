@@ -18,14 +18,9 @@ namespace ts {
                 node = visitEachChild(node, visit, context);
 
                 if (isBinaryExpression(node)) {
-                    const overload = checker.getOperatorOverload(
-                        checker.getTypeAtLocation(node.left),
-                        node.operatorToken,
-                        checker.getTypeAtLocation(node.right));
+                    const overload = checker.getOperatorOverload(node.left, node.operatorToken, node.right);
                     if (overload) {
-                        const { namespace, member } = overload;
-                        const propertyAccess = createPropertyAccess(createIdentifier(namespace.escapedName as string), member.escapedName as string);
-                        return createCall(propertyAccess, /* typeArguments */ undefined, [node.left, node.right]);
+                        return overload.call;
                     }
                 }
 

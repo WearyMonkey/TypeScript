@@ -47,7 +47,11 @@ export class Box {
     constructor(public value: number) { }
 }
 
-namespace Ops {
+export class BoxT<T> {
+    constructor(public value: T) { }
+}
+
+export namespace Ops {
     export function add(lhs: Box, rhs: Box): Box;
     export function add(lhs: Box, rhs: number): number;
     export function add(lhs: Box, rhs: Box | number) {
@@ -58,6 +62,10 @@ namespace Ops {
         }
     }
 
+    export function and<T>(lhs: BoxT<T>, rhs: T) {
+        return lhs.value && rhs;
+    }
+
     export function assignAdd(lhs: Box, rhs: number) {
         lhs.value += rhs;
     }
@@ -65,12 +73,23 @@ namespace Ops {
     export function assign(lhs: Box, rhs: number) {
         lhs.value = rhs;
     }
+
+    export function strictEquals(lhs: Box, rhs: number) {
+        return lhs.value === rhs;
+    }
+
+    export function equals(lhs: Box, rhs: number) {
+        return lhs.value == rhs;
+    }
 }
 
 let b1 = new Box(1);
 let b2 = new Box(2);
 b1 += 3;
 b2 = 3;
+const t = new BoxT(1) && 1;
+const e1 = b1 == 3;
+const e2 = b1 === 3;
 const minus = b1 - b2;
 const divide = b1 / b2;
 const multiply = b1 * b2;

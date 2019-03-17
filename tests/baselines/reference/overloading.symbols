@@ -1,0 +1,300 @@
+=== tests/cases/compiler/mod.ts ===
+import { Box } from './box';
+>Box : Symbol(Box, Decl(mod.ts, 0, 8))
+
+export namespace Ops_Mod {
+>Ops_Mod : Symbol(Ops_Mod, Decl(mod.ts, 0, 28))
+
+    export function mod(lhs: Box, rhs: Box): number {
+>mod : Symbol(mod, Decl(mod.ts, 2, 26))
+>lhs : Symbol(lhs, Decl(mod.ts, 3, 24))
+>Box : Symbol(Box, Decl(mod.ts, 0, 8))
+>rhs : Symbol(rhs, Decl(mod.ts, 3, 33))
+>Box : Symbol(Box, Decl(mod.ts, 0, 8))
+
+        return lhs.value % rhs.value;
+>lhs.value : Symbol(Box.value, Decl(box.ts, 8, 16))
+>lhs : Symbol(lhs, Decl(mod.ts, 3, 24))
+>value : Symbol(Box.value, Decl(box.ts, 8, 16))
+>rhs.value : Symbol(Box.value, Decl(box.ts, 8, 16))
+>rhs : Symbol(rhs, Decl(mod.ts, 3, 33))
+>value : Symbol(Box.value, Decl(box.ts, 8, 16))
+    }
+}
+
+=== tests/cases/compiler/divide.ts ===
+import { Box } from './box';
+>Box : Symbol(Box, Decl(divide.ts, 0, 8))
+
+export function divide(lhs: Box, rhs: Box): number {
+>divide : Symbol(divide, Decl(divide.ts, 0, 28))
+>lhs : Symbol(lhs, Decl(divide.ts, 2, 23))
+>Box : Symbol(Box, Decl(divide.ts, 0, 8))
+>rhs : Symbol(rhs, Decl(divide.ts, 2, 32))
+>Box : Symbol(Box, Decl(divide.ts, 0, 8))
+
+    return lhs.value / rhs.value;
+>lhs.value : Symbol(Box.value, Decl(box.ts, 8, 16))
+>lhs : Symbol(lhs, Decl(divide.ts, 2, 23))
+>value : Symbol(Box.value, Decl(box.ts, 8, 16))
+>rhs.value : Symbol(Box.value, Decl(box.ts, 8, 16))
+>rhs : Symbol(rhs, Decl(divide.ts, 2, 32))
+>value : Symbol(Box.value, Decl(box.ts, 8, 16))
+
+};
+
+=== tests/cases/compiler/multiply.ts ===
+import { Box } from './box';
+>Box : Symbol(Box, Decl(multiply.ts, 0, 8))
+
+export namespace Ops {
+>Ops : Symbol(Ops, Decl(multiply.ts, 0, 28))
+
+    export function multiply(lhs: Box, rhs: Box): number {
+>multiply : Symbol(multiply, Decl(multiply.ts, 2, 22))
+>lhs : Symbol(lhs, Decl(multiply.ts, 3, 29))
+>Box : Symbol(Box, Decl(multiply.ts, 0, 8))
+>rhs : Symbol(rhs, Decl(multiply.ts, 3, 38))
+>Box : Symbol(Box, Decl(multiply.ts, 0, 8))
+
+        return lhs.value * rhs.value;
+>lhs.value : Symbol(Box.value, Decl(box.ts, 8, 16))
+>lhs : Symbol(lhs, Decl(multiply.ts, 3, 29))
+>value : Symbol(Box.value, Decl(box.ts, 8, 16))
+>rhs.value : Symbol(Box.value, Decl(box.ts, 8, 16))
+>rhs : Symbol(rhs, Decl(multiply.ts, 3, 38))
+>value : Symbol(Box.value, Decl(box.ts, 8, 16))
+    }
+}
+
+=== tests/cases/compiler/minus.ts ===
+import { Box } from './box';
+>Box : Symbol(Box, Decl(minus.ts, 0, 8))
+
+export function sub(lhs: Box, rhs: Box): number {
+>sub : Symbol(sub, Decl(minus.ts, 0, 28))
+>lhs : Symbol(lhs, Decl(minus.ts, 2, 20))
+>Box : Symbol(Box, Decl(minus.ts, 0, 8))
+>rhs : Symbol(rhs, Decl(minus.ts, 2, 29))
+>Box : Symbol(Box, Decl(minus.ts, 0, 8))
+
+    return lhs.value - rhs.value;
+>lhs.value : Symbol(Box.value, Decl(box.ts, 8, 16))
+>lhs : Symbol(lhs, Decl(minus.ts, 2, 20))
+>value : Symbol(Box.value, Decl(box.ts, 8, 16))
+>rhs.value : Symbol(Box.value, Decl(box.ts, 8, 16))
+>rhs : Symbol(rhs, Decl(minus.ts, 2, 29))
+>value : Symbol(Box.value, Decl(box.ts, 8, 16))
+}
+
+=== tests/cases/compiler/box.ts ===
+import * as Ops_Minus from './minus';
+>Ops_Minus : Symbol(Ops_Minus, Decl(box.ts, 0, 6))
+
+import * as Ops_Divide from './divide';
+>Ops_Divide : Symbol(Ops_Divide, Decl(box.ts, 1, 6))
+
+import { Ops as Ops_Multiply } from './multiply';
+>Ops : Symbol(Ops_Multiply, Decl(multiply.ts, 0, 28))
+>Ops_Multiply : Symbol(Ops_Multiply, Decl(box.ts, 2, 8))
+
+import { Ops_Mod } from './mod';
+>Ops_Mod : Symbol(Ops_Mod, Decl(box.ts, 3, 8))
+
+console.log(Ops_Minus);
+>console.log : Symbol(Console.log, Decl(lib.dom.d.ts, --, --))
+>console : Symbol(console, Decl(lib.dom.d.ts, --, --))
+>log : Symbol(Console.log, Decl(lib.dom.d.ts, --, --))
+>Ops_Minus : Symbol(Ops_Minus, Decl(box.ts, 0, 6))
+
+export class Box {
+>Box : Symbol(Box, Decl(box.ts, 5, 23))
+
+    constructor(public value: number) { }
+>value : Symbol(Box.value, Decl(box.ts, 8, 16))
+}
+
+export class BoxT<T> {
+>BoxT : Symbol(BoxT, Decl(box.ts, 9, 1))
+>T : Symbol(T, Decl(box.ts, 11, 18))
+
+    constructor(public value: T) { }
+>value : Symbol(BoxT.value, Decl(box.ts, 12, 16))
+>T : Symbol(T, Decl(box.ts, 11, 18))
+}
+
+export namespace Ops {
+>Ops : Symbol(Ops, Decl(box.ts, 13, 1))
+
+    export function add(lhs: Box, rhs: Box): Box;
+>add : Symbol(add, Decl(box.ts, 15, 22), Decl(box.ts, 16, 49), Decl(box.ts, 17, 55))
+>lhs : Symbol(lhs, Decl(box.ts, 16, 24))
+>Box : Symbol(Box, Decl(box.ts, 5, 23))
+>rhs : Symbol(rhs, Decl(box.ts, 16, 33))
+>Box : Symbol(Box, Decl(box.ts, 5, 23))
+>Box : Symbol(Box, Decl(box.ts, 5, 23))
+
+    export function add(lhs: Box, rhs: number): number;
+>add : Symbol(add, Decl(box.ts, 15, 22), Decl(box.ts, 16, 49), Decl(box.ts, 17, 55))
+>lhs : Symbol(lhs, Decl(box.ts, 17, 24))
+>Box : Symbol(Box, Decl(box.ts, 5, 23))
+>rhs : Symbol(rhs, Decl(box.ts, 17, 33))
+
+    export function add(lhs: Box, rhs: Box | number) {
+>add : Symbol(add, Decl(box.ts, 15, 22), Decl(box.ts, 16, 49), Decl(box.ts, 17, 55))
+>lhs : Symbol(lhs, Decl(box.ts, 18, 24))
+>Box : Symbol(Box, Decl(box.ts, 5, 23))
+>rhs : Symbol(rhs, Decl(box.ts, 18, 33))
+>Box : Symbol(Box, Decl(box.ts, 5, 23))
+
+        if (rhs instanceof Box) {
+>rhs : Symbol(rhs, Decl(box.ts, 18, 33))
+>Box : Symbol(Box, Decl(box.ts, 5, 23))
+
+            return new Box(lhs.value + rhs.value);
+>Box : Symbol(Box, Decl(box.ts, 5, 23))
+>lhs.value : Symbol(Box.value, Decl(box.ts, 8, 16))
+>lhs : Symbol(lhs, Decl(box.ts, 18, 24))
+>value : Symbol(Box.value, Decl(box.ts, 8, 16))
+>rhs.value : Symbol(Box.value, Decl(box.ts, 8, 16))
+>rhs : Symbol(rhs, Decl(box.ts, 18, 33))
+>value : Symbol(Box.value, Decl(box.ts, 8, 16))
+
+        } else {
+            return this.value + rhs;
+>rhs : Symbol(rhs, Decl(box.ts, 18, 33))
+        }
+    }
+
+    export function and<T>(lhs: BoxT<T>, rhs: T) {
+>and : Symbol(and, Decl(box.ts, 24, 5))
+>T : Symbol(T, Decl(box.ts, 26, 24))
+>lhs : Symbol(lhs, Decl(box.ts, 26, 27))
+>BoxT : Symbol(BoxT, Decl(box.ts, 9, 1))
+>T : Symbol(T, Decl(box.ts, 26, 24))
+>rhs : Symbol(rhs, Decl(box.ts, 26, 40))
+>T : Symbol(T, Decl(box.ts, 26, 24))
+
+        return lhs.value && rhs;
+>lhs.value : Symbol(BoxT.value, Decl(box.ts, 12, 16))
+>lhs : Symbol(lhs, Decl(box.ts, 26, 27))
+>value : Symbol(BoxT.value, Decl(box.ts, 12, 16))
+>rhs : Symbol(rhs, Decl(box.ts, 26, 40))
+    }
+
+    export function assignAdd(lhs: Box, rhs: number) {
+>assignAdd : Symbol(assignAdd, Decl(box.ts, 28, 5))
+>lhs : Symbol(lhs, Decl(box.ts, 30, 30))
+>Box : Symbol(Box, Decl(box.ts, 5, 23))
+>rhs : Symbol(rhs, Decl(box.ts, 30, 39))
+
+        lhs.value += rhs;
+>lhs.value : Symbol(Box.value, Decl(box.ts, 8, 16))
+>lhs : Symbol(lhs, Decl(box.ts, 30, 30))
+>value : Symbol(Box.value, Decl(box.ts, 8, 16))
+>rhs : Symbol(rhs, Decl(box.ts, 30, 39))
+    }
+
+    export function assign(lhs: Box, rhs: number) {
+>assign : Symbol(assign, Decl(box.ts, 32, 5))
+>lhs : Symbol(lhs, Decl(box.ts, 34, 27))
+>Box : Symbol(Box, Decl(box.ts, 5, 23))
+>rhs : Symbol(rhs, Decl(box.ts, 34, 36))
+
+        lhs.value = rhs;
+>lhs.value : Symbol(Box.value, Decl(box.ts, 8, 16))
+>lhs : Symbol(lhs, Decl(box.ts, 34, 27))
+>value : Symbol(Box.value, Decl(box.ts, 8, 16))
+>rhs : Symbol(rhs, Decl(box.ts, 34, 36))
+    }
+
+    export function strictEquals(lhs: Box, rhs: number) {
+>strictEquals : Symbol(strictEquals, Decl(box.ts, 36, 5))
+>lhs : Symbol(lhs, Decl(box.ts, 38, 33))
+>Box : Symbol(Box, Decl(box.ts, 5, 23))
+>rhs : Symbol(rhs, Decl(box.ts, 38, 42))
+
+        return lhs.value === rhs;
+>lhs.value : Symbol(Box.value, Decl(box.ts, 8, 16))
+>lhs : Symbol(lhs, Decl(box.ts, 38, 33))
+>value : Symbol(Box.value, Decl(box.ts, 8, 16))
+>rhs : Symbol(rhs, Decl(box.ts, 38, 42))
+    }
+
+    export function equals(lhs: Box, rhs: number) {
+>equals : Symbol(equals, Decl(box.ts, 40, 5))
+>lhs : Symbol(lhs, Decl(box.ts, 42, 27))
+>Box : Symbol(Box, Decl(box.ts, 5, 23))
+>rhs : Symbol(rhs, Decl(box.ts, 42, 36))
+
+        return lhs.value == rhs;
+>lhs.value : Symbol(Box.value, Decl(box.ts, 8, 16))
+>lhs : Symbol(lhs, Decl(box.ts, 42, 27))
+>value : Symbol(Box.value, Decl(box.ts, 8, 16))
+>rhs : Symbol(rhs, Decl(box.ts, 42, 36))
+    }
+}
+
+let b1 = new Box(1);
+>b1 : Symbol(b1, Decl(box.ts, 47, 3))
+>Box : Symbol(Box, Decl(box.ts, 5, 23))
+
+let b2 = new Box(2);
+>b2 : Symbol(b2, Decl(box.ts, 48, 3))
+>Box : Symbol(Box, Decl(box.ts, 5, 23))
+
+b1 += 3;
+>b1 : Symbol(b1, Decl(box.ts, 47, 3))
+
+b2 = 3;
+>b2 : Symbol(b2, Decl(box.ts, 48, 3))
+
+const t = new BoxT(1) && 1;
+>t : Symbol(t, Decl(box.ts, 51, 5))
+>BoxT : Symbol(BoxT, Decl(box.ts, 9, 1))
+
+const e1 = b1 == 3;
+>e1 : Symbol(e1, Decl(box.ts, 52, 5))
+>b1 : Symbol(b1, Decl(box.ts, 47, 3))
+
+const e2 = b1 === 3;
+>e2 : Symbol(e2, Decl(box.ts, 53, 5))
+>b1 : Symbol(b1, Decl(box.ts, 47, 3))
+
+const minus = b1 - b2;
+>minus : Symbol(minus, Decl(box.ts, 54, 5))
+>b1 : Symbol(b1, Decl(box.ts, 47, 3))
+>b2 : Symbol(b2, Decl(box.ts, 48, 3))
+
+const divide = b1 / b2;
+>divide : Symbol(divide, Decl(box.ts, 55, 5))
+>b1 : Symbol(b1, Decl(box.ts, 47, 3))
+>b2 : Symbol(b2, Decl(box.ts, 48, 3))
+
+const multiply = b1 * b2;
+>multiply : Symbol(multiply, Decl(box.ts, 56, 5))
+>b1 : Symbol(b1, Decl(box.ts, 47, 3))
+>b2 : Symbol(b2, Decl(box.ts, 48, 3))
+
+const mod = b1 % b2;
+>mod : Symbol(mod, Decl(box.ts, 57, 5))
+>b1 : Symbol(b1, Decl(box.ts, 47, 3))
+>b2 : Symbol(b2, Decl(box.ts, 48, 3))
+
+const b3 = b1 + b2;
+>b3 : Symbol(b3, Decl(box.ts, 58, 5))
+>b1 : Symbol(b1, Decl(box.ts, 47, 3))
+>b2 : Symbol(b2, Decl(box.ts, 48, 3))
+
+const b4 = b1 + 1;
+>b4 : Symbol(b4, Decl(box.ts, 59, 5))
+>b1 : Symbol(b1, Decl(box.ts, 47, 3))
+
+const b5 = b1 + 'foo';
+>b5 : Symbol(b5, Decl(box.ts, 60, 5))
+>b1 : Symbol(b1, Decl(box.ts, 47, 3))
+
+const b6 = b1 + {};
+>b6 : Symbol(b6, Decl(box.ts, 61, 5))
+>b1 : Symbol(b1, Decl(box.ts, 47, 3))
+
