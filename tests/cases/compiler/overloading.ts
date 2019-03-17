@@ -44,7 +44,7 @@ import { Ops_Mod } from './mod';
 console.log(Ops_Minus);
 
 export class Box {
-    constructor(readonly value: number) { }
+    constructor(public value: number) { }
 }
 
 namespace Ops {
@@ -57,10 +57,20 @@ namespace Ops {
             return this.value + rhs;
         }
     }
+
+    export function assignAdd(lhs: Box, rhs: number) {
+        lhs.value += rhs;
+    }
+
+    export function assign(lhs: Box, rhs: number) {
+        lhs.value = rhs;
+    }
 }
 
-const b1 = new Box(1);
-const b2 = new Box(2);
+let b1 = new Box(1);
+let b2 = new Box(2);
+b1 += 3;
+b2 = 3;
 const minus = b1 - b2;
 const divide = b1 / b2;
 const multiply = b1 * b2;

@@ -22538,44 +22538,41 @@ namespace ts {
             switch (operatorToken.kind) {
                 case SyntaxKind.AsteriskToken: return "multiply";
                 case SyntaxKind.AsteriskAsteriskToken: return "exp";
-                case SyntaxKind.AsteriskEqualsToken: return "multiply";
+                case SyntaxKind.AsteriskEqualsToken: return "assignMultiply";
                 case SyntaxKind.AsteriskAsteriskEqualsToken: return "exp";
                 case SyntaxKind.SlashToken: return "divide";
-                case SyntaxKind.SlashEqualsToken: return "divide";
+                case SyntaxKind.SlashEqualsToken: return "assignDivide";
                 case SyntaxKind.PercentToken: return "mod";
-                case SyntaxKind.PercentEqualsToken: return "mod";
+                case SyntaxKind.PercentEqualsToken: return "assignMod";
                 case SyntaxKind.MinusToken: return "sub";
-                case SyntaxKind.MinusEqualsToken: return "sub";
+                case SyntaxKind.MinusEqualsToken: return "assignSub";
                 case SyntaxKind.LessThanLessThanToken: return "leftShift";
-                case SyntaxKind.LessThanLessThanEqualsToken: return "leftShift";
+                case SyntaxKind.LessThanLessThanEqualsToken: return "assignLeftShift";
                 case SyntaxKind.GreaterThanGreaterThanToken: return "rightShift";
-                case SyntaxKind.GreaterThanGreaterThanEqualsToken: return "rightShift";
+                case SyntaxKind.GreaterThanGreaterThanEqualsToken: return "assignRightShift";
                 case SyntaxKind.GreaterThanGreaterThanGreaterThanToken: return "unsignedRightShift";
-                case SyntaxKind.GreaterThanGreaterThanGreaterThanEqualsToken: return "unsignedRightShift";
+                case SyntaxKind.GreaterThanGreaterThanGreaterThanEqualsToken: return "assignUnsignedRightShift";
                 case SyntaxKind.BarToken: return "bitOr";
-                case SyntaxKind.BarEqualsToken: return "bitOr";
+                case SyntaxKind.BarEqualsToken: return "assignBitOr";
                 case SyntaxKind.CaretToken: return "bitXor";
-                case SyntaxKind.CaretEqualsToken: return "bitXor";
+                case SyntaxKind.CaretEqualsToken: return "assignBitXor";
                 case SyntaxKind.AmpersandToken: return "bitAnd";
-                case SyntaxKind.AmpersandEqualsToken: return "bitAnd";
+                case SyntaxKind.AmpersandEqualsToken: return "assignBitAnd";
                 case SyntaxKind.PlusToken: return "add";
-                case SyntaxKind.PlusEqualsToken: return "add";
+                case SyntaxKind.PlusEqualsToken: return "assignAdd";
                 case SyntaxKind.LessThanToken: return "lessThan";
                 case SyntaxKind.GreaterThanToken: return "greaterThan";
-                case SyntaxKind.LessThanEqualsToken: return "lessThan";
-                case SyntaxKind.GreaterThanEqualsToken: return "greaterThan";
+                case SyntaxKind.LessThanEqualsToken: return "lessThanEquals";
+                case SyntaxKind.GreaterThanEqualsToken: return "greaterThanEquals";
                 case SyntaxKind.EqualsEqualsToken: return "equals";
                 case SyntaxKind.ExclamationEqualsToken: return "notEquals";
                 case SyntaxKind.EqualsEqualsEqualsToken: return "strictEquals";
                 case SyntaxKind.ExclamationEqualsEqualsToken: return "strictNotEquals";
-                case SyntaxKind.InstanceOfKeyword: return undefined;
-                case SyntaxKind.InKeyword: return undefined;
                 case SyntaxKind.AmpersandAmpersandToken: return "and";
                 case SyntaxKind.BarBarToken: return "or";
                 case SyntaxKind.EqualsToken: return "assign";
-                case SyntaxKind.CommaToken: return undefined;
                 default:
-                    return Debug.fail();
+                    return undefined;
             }
         }
 
